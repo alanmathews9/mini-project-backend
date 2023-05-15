@@ -3,7 +3,7 @@ from django.db import models
 class User(models.Model):
     user_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    age = models.IntegerField()
+    phone_number = models.CharField(max_length=20, unique=True)
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
