@@ -2,6 +2,20 @@ import requests
 import json
 from django.http import JsonResponse
 from .models import User, Chat
+def login(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        phone_number = request.POST['phone_number']
+        
+        # Generate user_id by incrementing the last user_id
+        last_user = User.objects.order_by('-user_id').first()
+        user_id = 1 if last_user is None else last_user.user_id + 1
+
+        # Create a new User object
+        user = User.objects.create(user_id=user_id, name=name, phone_number=phone_number)
+        
+        return JsonResponse({'user_id': user_id})
+    return JsonResponse({'error': 'Invalid request method'})
 
 def chatbot(request):
     if request.method == 'POST':
