@@ -7,11 +7,16 @@ def login(request):
         name = request.POST['name']
         phone_number = request.POST['phone_number']
         
-        # Generate user_id by incrementing the last user_id
+        if not name:
+            return JsonResponse({'error': 'Name is required.'}, status=400)
+        if not phone_number:
+            return JsonResponse({'error': 'Phone number is required.'}, status=400)
+        if len(phone_number) != 10 or not phone_number.isdigit():
+            return JsonResponse({'error': 'Invalid phone number'}, status=400)
+        
         last_user = User.objects.order_by('-user_id').first()
         user_id = 1 if last_user is None else last_user.user_id + 1
 
-        # Create a new User object
         user = User.objects.create(user_id=user_id, name=name, phone_number=phone_number)
         
         return JsonResponse({'user_id': user_id})
@@ -43,6 +48,5 @@ def chatbot(request):
         bot_response = response.json()['choices'][0]['message']['content']
         chat.response = bot_response
         chat.save()
-
         return JsonResponse({'response': bot_response})
     return JsonResponse({'error': 'Invalid request method'})
