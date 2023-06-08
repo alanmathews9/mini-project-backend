@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from chatbot_app.views import chatbot
+import chatbot_app.views
+import basic_auth.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chatbot/', chatbot, name='chatbot'),
+    path('chatbot/', chatbot_app.views.chatbot, name='chatbot'),
+    path('login/', basic_auth.views.login, name="login"),
+    path('logout/', basic_auth.views.logout, name="logout"),
+    path('register_user/', basic_auth.views.register_user, name="register_user"),
 ]
