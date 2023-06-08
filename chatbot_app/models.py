@@ -1,6 +1,7 @@
 from django.db import models
 from basic_auth.models import User
 
+
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     chat_id = models.IntegerField()
