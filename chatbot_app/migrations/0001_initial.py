@@ -13,14 +13,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='User',
-            fields=[
-                ('user_id', models.IntegerField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100)),
-                ('age', models.IntegerField()),
-            ],
-        ),
-        migrations.CreateModel(
             name='Chat',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
