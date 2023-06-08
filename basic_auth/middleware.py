@@ -1,6 +1,6 @@
 from django.utils.deprecation import MiddlewareMixin
 from .userstore import get_user
-from mysite import error_msg_handler
+from chatbot_project import error_msg_handler
 
 import json
 import logging

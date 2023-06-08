@@ -6,7 +6,6 @@ import json
 import logging
 import bcrypt
 
-
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
