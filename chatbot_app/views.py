@@ -1,7 +1,8 @@
 import requests
 import json
 from django.http import JsonResponse
-from .models import User, Chat
+from .models import Chat
+from basic_auth.models import User
 
 def chatbot(request):
     if request.method == 'POST':
