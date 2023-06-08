@@ -12,8 +12,3 @@ class User(models.Model):
     email = models.CharField(unique=True, max_length=45)
     name = models.CharField(max_length=20)
     hashed_password = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-        unique_together = (('id', 'email'),)
