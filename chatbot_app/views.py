@@ -29,16 +29,13 @@ def chatbot(request):
 
         user, created = User.objects.get_or_create(user_id=user_id)
 
-        # Retrieve the chat history for the user
         chat_history = Chat.objects.filter(user=user).order_by('-id')[:5][::-1]
 
-        # Build the messages list for conversation history
         messages = [{'role': 'system', 'content': 'You are a helpful assistant.'}]
         for chat in chat_history:
             messages.append({'role': 'user', 'content': chat.query})
             messages.append({'role': 'assistant', 'content': chat.response})
 
-        # Add the current user query to the conversation
         messages.append({'role': 'user', 'content': query})
 
         response = requests.post(
@@ -55,8 +52,6 @@ def chatbot(request):
         )
 
         bot_response = response.json()['choices'][0]['message']['content']
-
-        # Save the user query and bot response in the database
         chat = Chat.objects.create(user=user, chat_id=user_id, query=query, response=bot_response)
 
         return JsonResponse({'response': bot_response})
