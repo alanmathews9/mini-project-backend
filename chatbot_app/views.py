@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from .models import Chat
 from basic_auth.models import People
 
+
 def chatbot(request):
     if request.method == 'POST':
         user_id = request.POST['user_id']
