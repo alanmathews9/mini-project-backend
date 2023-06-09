@@ -16,11 +16,8 @@ def get_history(request):
         query_response_pairs = []
         for chat in chat_history:
             query_response_pairs.append({
-                'id': chat.id,
-                'user_email': chat.user_email.email,
                 'query': chat.query,
                 'response': chat.response,
-                'timestamp': chat.timestamp
             })
         
         if query_response_pairs:
@@ -33,8 +30,8 @@ def get_history(request):
 
 def chatbot(request):
     if request.method == 'POST':
-        user_email = request.POST.get('user_email')
-        query = request.POST.get('query')
+        user_email = request.POST['user_email']
+        query = request.POST['query']
 
         user, created = People.objects.get_or_create(email=user_email)
 
