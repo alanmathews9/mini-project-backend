@@ -9,8 +9,8 @@ from django.http import JsonResponse
 
 def get_history(request):
     if request.method == 'GET':
-        email_id = request.GET.get('email_id')
-        
+        email_id = request.GET['email_id']
+
         chat_history = Chat.objects.filter(user_email=email_id)
         
         query_response_pairs = []
