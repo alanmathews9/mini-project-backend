@@ -7,19 +7,31 @@ from basic_auth.models import People
 def get_history(request):
     if request.method == 'GET':
         email_id = request.GET.get('email_id')
-        
-        chat_history = Chat.objects.filter(user_email=email_id).order_by('-id')
-        
+
+        chat_history = Chat.objects.raw(
+            '''
+            SELECT query, response
+            FROM chat
+            WHERE user_email = %s
+            ORDER BY id DESC
+            ''',
+            [email_id]
+        )
+
         query_response_pairs = []
         for chat in chat_history:
             query_response_pairs.append({
                 'query': chat.query,
                 'response': chat.response
             })
-        
-        return JsonResponse({'email_id': email_id, 'history': query_response_pairs})
+
+        if query_response_pairs:
+            return JsonResponse({'email_id': email_id, 'history': query_response_pairs})
+        else:
+            return JsonResponse({'error': 'No chat history found for the provided email ID.'})
 
     return JsonResponse({'error': 'Invalid request method'})
+
 
 def chatbot(request):
     if request.method == 'POST':
