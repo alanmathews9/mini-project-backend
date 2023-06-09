@@ -6,7 +6,7 @@ from basic_auth.models import People
 
 def get_history(request):
     if request.method == 'GET':
-        email_id = request.GET.get('email_id')
+        email_id = request.data.get('email_id')
 
         chat_history = Chat.objects.filter(user_email=email_id)
         
@@ -47,7 +47,7 @@ def chatbot(request):
         response = requests.post(
             'https://api.openai.com/v1/chat/completions',
             headers={
-                'Authorization': 'Bearer <YOUR_API_KEY>',
+                'Authorization': 'Bearer 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',
                 'Content-Type': 'application/json'
             },
             json={
