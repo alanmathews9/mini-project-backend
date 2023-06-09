@@ -25,15 +25,21 @@ def get_history(request):
     return JsonResponse({'error': 'Invalid request method'})
 
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+
 def chatbot(request):
     if request.method == 'POST':
         if 'user_email' not in request.data:
             return JsonResponse({'error': 'user_email is required'}, status=400)
-        
+
         user_email = request.data['user_email']
         query = request.data.get('query', '')
 
-        user, created = People.objects.get_or_create(email=user_email)
+        try:
+            user = People.objects.get(email=user_email)
+        except People.DoesNotExist:
+            return JsonResponse({'error': 'Invalid user'}, status=400)
 
         chat_history = Chat.objects.filter(user_email=user.email).order_by('-id')[:5][::-1]
 
@@ -43,7 +49,7 @@ def chatbot(request):
             messages.append({'role': 'assistant', 'content': chat.response})
 
         messages.append({'role': 'user', 'content': query})
-
+        # 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
         response = requests.post(
             'https://api.openai.com/v1/chat/completions',
             headers={
@@ -61,7 +67,7 @@ def chatbot(request):
         chat = Chat.objects.create(user_email=user, query=query, response=bot_response)
 
         query_response = [{'query': chat.query, 'response': chat.response} for chat in chat_history]
-        
+
         query_response.append({'query': query, 'response': bot_response})
 
         return JsonResponse({
