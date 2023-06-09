@@ -4,7 +4,22 @@ from django.http import JsonResponse
 from .models import Chat
 from basic_auth.models import People
 
+def get_history(request):
+    if request.method == 'GET':
+        email_id = request.GET.get('email_id')
+        
+        chat_history = Chat.objects.filter(user_email=email_id).order_by('-id')
+        
+        query_response_pairs = []
+        for chat in chat_history:
+            query_response_pairs.append({
+                'query': chat.query,
+                'response': chat.response
+            })
+        
+        return JsonResponse({'email_id': email_id, 'history': query_response_pairs})
 
+    return JsonResponse({'error': 'Invalid request method'})
 
 def chatbot(request):
     if request.method == 'POST':
