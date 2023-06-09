@@ -7,13 +7,12 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class People(models.Model):
     email = models.CharField(unique=True, max_length=45)
     name = models.CharField(max_length=20)
     hashed_password = models.TextField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'user'
         unique_together = (('id', 'email'),)
