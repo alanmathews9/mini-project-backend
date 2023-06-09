@@ -27,8 +27,8 @@ def get_history(request):
 
 def chatbot(request):
     if request.method == 'POST':
-        user_email = request.POST['user_email']
-        query = request.POST['query']
+        user_email = request.data['user_email']
+        query = request.data['query']
 
         user, created = People.objects.get_or_create(email=user_email)
 
