@@ -27,8 +27,11 @@ def get_history(request):
 
 def chatbot(request):
     if request.method == 'POST':
+        if 'user_email' not in request.data:
+            return JsonResponse({'error': 'user_email is required'}, status=400)
+        
         user_email = request.data['user_email']
-        query = request.data['query']
+        query = request.data.get('query', '')
 
         user, created = People.objects.get_or_create(email=user_email)
 
