@@ -85,3 +85,4 @@ def register_user(request):
     return HttpResponse(json.dumps({"type": "RegisterResponse", "status": "failure", "reason": err_msg}, default=str),
                         content_type="application/json")
 
+
