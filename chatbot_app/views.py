@@ -4,25 +4,30 @@ from django.http import JsonResponse
 from .models import Chat
 from basic_auth.models import People
 
+from django.db import connection
+from django.http import JsonResponse
+
 def get_history(request):
     if request.method == 'GET':
         email_id = request.GET.get('email_id')
 
-        chat_history = Chat.objects.raw(
-            '''
-            SELECT query, response
-            FROM chat
-            WHERE user_email = %s
-            ORDER BY id DESC
-            ''',
-            [email_id]
-        )
+        with connection.cursor() as cursor:
+            cursor.execute(
+                '''
+                SELECT id, query, response
+                FROM chat
+                WHERE user_email = %s
+                ORDER BY id DESC
+                ''',
+                [email_id]
+            )
+            chat_history = cursor.fetchall()
 
         query_response_pairs = []
         for chat in chat_history:
             query_response_pairs.append({
-                'query': chat.query,
-                'response': chat.response
+                'query': chat[1],
+                'response': chat[2]
             })
 
         if query_response_pairs:
