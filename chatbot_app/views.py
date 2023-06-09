@@ -10,31 +10,24 @@ from django.http import JsonResponse
 def get_history(request):
     if request.method == 'GET':
         email_id = request.GET.get('email_id')
-
-        with connection.cursor() as cursor:
-            cursor.execute(
-                '''
-                SELECT id, query, response
-                FROM chat
-                WHERE user_email = %s
-                ORDER BY id DESC
-                ''',
-                [email_id]
-            )
-            chat_history = cursor.fetchall()
-
+        
+        chat_history = Chat.objects.filter(user_email=email_id)
+        
         query_response_pairs = []
         for chat in chat_history:
             query_response_pairs.append({
-                'query': chat[1],
-                'response': chat[2]
+                'id': chat.id,
+                'user_email': chat.user_email.email,
+                'query': chat.query,
+                'response': chat.response,
+                'timestamp': chat.timestamp
             })
-
+        
         if query_response_pairs:
             return JsonResponse({'email_id': email_id, 'history': query_response_pairs})
         else:
             return JsonResponse({'error': 'No chat history found for the provided email ID.'})
-
+    
     return JsonResponse({'error': 'Invalid request method'})
 
 
