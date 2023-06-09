@@ -20,6 +20,7 @@ import basic_auth.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('get_history/', chatbot_app.views.get_history, name='get_history'),
     path('chatbot/', chatbot_app.views.chatbot, name='chatbot'),
     path('login/', basic_auth.views.login, name="login"),
     path('logout/', basic_auth.views.logout, name="logout"),
