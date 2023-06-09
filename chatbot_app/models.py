@@ -3,7 +3,8 @@ from django.db import models
 
 
 class Chat(models.Model):
-    chat_id = models.IntegerField()
+    # email
+    chat_id = models.IntegerField() 
     query = models.TextField()
     response = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

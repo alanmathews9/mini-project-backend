@@ -4,10 +4,12 @@ from django.http import JsonResponse
 from .models import Chat
 from basic_auth.models import People
 
+# get request
+
 
 def chatbot(request):
     if request.method == 'POST':
-        user_id = request.POST['user_id']
+        user_id = request.POST['user_id'] # email
         query = request.POST['query']
 
         user, created = People.objects.get_or_create(user_id=user_id)
@@ -37,6 +39,6 @@ def chatbot(request):
         bot_response = response.json()['choices'][0]['message']['content']
         chat = Chat.objects.create(user=user, chat_id=user_id, query=query, response=bot_response)
 
-        return JsonResponse({'response': bot_response})
+        return JsonResponse({'response': bot_response}) 
 
     return JsonResponse({'error': 'Invalid request method'})

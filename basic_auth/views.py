@@ -6,7 +6,7 @@ import json
 import logging
 import bcrypt
 
-
+# return email
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
@@ -24,7 +24,7 @@ def login(request):
 
     email_id = request.data['email_id']
     password = request.data['password']
-    
+
     status, msg_or_session_id = userstore.login(email_id, password)
     if status:
        return HttpResponse(json.dumps({"type": "LoginResponse", "status": "success", "session_id": msg_or_session_id}, default=str),
