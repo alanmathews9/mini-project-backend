@@ -5,7 +5,7 @@ import random
 
 logger = logging.getLogger(__name__)
 
-# from basic_auth.models import People as UserModel
+from basic_auth.models import People as UserModel
 
 session_id_to_user_dict = {}
 
