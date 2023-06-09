@@ -27,10 +27,17 @@ def login(request):
 
     status, msg_or_session_id = userstore.login(email_id, password)
     if status:
-       return HttpResponse(json.dumps({"type": "LoginResponse", "status": "success", "session_id": msg_or_session_id}, default=str),
-                           content_type="application/json")
+        response_data = {
+            "type": "LoginResponse",
+            "status": "success",
+            "session_id": msg_or_session_id,
+            "email_id": email_id
+        }
+        return HttpResponse(json.dumps(response_data, default=str),
+                            content_type="application/json")
     return HttpResponse(json.dumps({"type": "LoginResponse", "status": "failure", "reason": msg_or_session_id}, default=str),
                         content_type="application/json")
+
 
 
 @csrf_exempt
