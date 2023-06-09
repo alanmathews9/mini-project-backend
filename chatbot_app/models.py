@@ -1,5 +1,5 @@
 from django.db import models
-from basic_auth.models import User
+# from basic_auth.models import People
 
 
 class Chat(models.Model):

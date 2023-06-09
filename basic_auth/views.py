@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from basic_auth.models import User
+# from basic_auth.models import People
 from django.views.decorators.csrf import csrf_exempt
 import basic_auth.userstore as userstore
 import json

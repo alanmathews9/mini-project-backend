@@ -2,14 +2,14 @@ import requests
 import json
 from django.http import JsonResponse
 from .models import Chat
-from basic_auth.models import User
+# from basic_auth.models import People
 
 def chatbot(request):
     if request.method == 'POST':
         user_id = request.POST['user_id']
         query = request.POST['query']
 
-        user, created = User.objects.get_or_create(user_id=user_id)
+        # user, created = People.objects.get_or_create(user_id=user_id)
 
         chat_history = Chat.objects.filter(user=user).order_by('-id')[:5][::-1]
 

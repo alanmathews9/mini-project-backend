@@ -8,7 +8,9 @@
 from django.db import models
 
 
-class User(models.Model):
+
+class People(models.Model):
     email = models.CharField(unique=True, max_length=45)
     name = models.CharField(max_length=20)
     hashed_password = models.TextField()
+
