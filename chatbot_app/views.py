@@ -3,13 +3,13 @@ import json
 from django.http import JsonResponse
 from .models import Chat
 from basic_auth.models import People
-
+from bardapi import Bard
+import os
 def get_history(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         email_id = request.data.get('email_id')
-
+     
         chat_history = Chat.objects.filter(user_email=email_id)
-        
         query_response_pairs = []
         for chat in chat_history:
             query_response_pairs.append({
@@ -41,37 +41,33 @@ def chatbot(request):
         except People.DoesNotExist:
             return JsonResponse({'error': 'Invalid user'}, status=400)
 
-        chat_history = Chat.objects.filter(user_email=user.email).order_by('-id')[:5][::-1]
 
-        messages = [{'role': 'system', 'content': 'You are a helpful assistant.'}]
-        for chat in chat_history:
-            messages.append({'role': 'user', 'content': chat.query})
-            messages.append({'role': 'assistant', 'content': chat.response})
-
-        messages.append({'role': 'user', 'content': query})
         # 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
-        response = requests.post(
-            'https://api.openai.com/v1/chat/completions',
-            headers={
-                'Authorization': 'Bearer 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',
-                'Content-Type': 'application/json'
-            },
-            json={
-                'model': 'gpt-3.5-turbo',
-                'messages': messages,
-                'max_tokens': 50
-            }
-        )
-        bot_response = response.json()['choices'][0]['message']['content']
-        chat = Chat.objects.create(user_email=user, query=query, response=bot_response)
-
+        os.environ['_BARD_API_KEY']="WgjfBxFLVQ0wpfDIhlBbwVVHWBbzkY8HPCCvkaDTjQZC4gqBvUuNGM9xiNHc29EIIB10nQ."
+        bard=Bard(timeout=1000)
+        response=bard.get_answer(query)
+        # response = requests.post(
+        #     'https://api.openai.com/v1/chat/completions',
+        #     headers={
+        #         'Authorization': 'Bearer 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',
+        #         'Content-Type': 'application/json'
+        #     },
+        #     json={
+        #         'model': 'gpt-3.5-turbo',
+        #         'messages': messages,
+        #         'max_tokens': 50
+        #     }
+        # )
+        # print(response)
+        # bot_response = response.json()['choices'][0]['message']['content']
+        chat = Chat.objects.create(user_email=user, query=query, response=response["content"])
+        chat_history = Chat.objects.filter(user_email=user.email).order_by('timestamp')
         query_response = [{'query': chat.query, 'response': chat.response} for chat in chat_history]
 
-        query_response.append({'query': query, 'response': bot_response})
 
         return JsonResponse({
             'user_email': user_email,
-            'query_response_pairs': query_response
+            'query_response_pairs': query_response,
         })
 
     return JsonResponse({'error': 'Invalid request method'})
