@@ -1,0 +1,16 @@
+asgiref==3.7.2
+bcrypt==4.0.1
+certifi==2023.5.7
+charset-normalizer==3.1.0
+colorama==0.4.6
+Django==4.2.2
+django-cors-headers==4.0.0
+mysqlclient==2.1.1
+pymongo==4.3.3
+python-dotenv==1.0.0
+requests==2.30.0
+sqlparse==0.4.4
+tqdm==4.65.0
+tzdata==2023.3
+urllib3==2.0.2
+yarl==1.9.2
