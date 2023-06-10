@@ -49,11 +49,10 @@ def chatbot(request):
             messages.append({'role': 'assistant', 'content': chat.response})
 
         messages.append({'role': 'user', 'content': query})
-        # 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
         response = requests.post(
             'https://api.openai.com/v1/chat/completions',
             headers={
-                'Authorization': 'Bearer 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',
+                'Authorization': 'Bearer your_api_key',
                 'Content-Type': 'application/json'
             },
             json={
