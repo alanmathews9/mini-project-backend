@@ -62,7 +62,6 @@ def chatbot(request):
                 'max_tokens': 50
             }
         )
-
         bot_response = response.json()['choices'][0]['message']['content']
         chat = Chat.objects.create(user_email=user, query=query, response=bot_response)
 

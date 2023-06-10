@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 excluse_path_list = ['/login', '/logout', '/register_user', '/login/', '/logout/', '/register_user/']
 
+excluse_path_list += ['/chatbot', '/get_history', '/chatbot/', '/get_history/']
+
 class AuthMiddleware(MiddlewareMixin):
     def process_request(self, request):
         try:
