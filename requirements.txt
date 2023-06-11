@@ -6,7 +6,6 @@ colorama==0.4.6
 Django==4.2.2
 django-cors-headers==4.0.0
 mysqlclient==2.1.1
-pymongo==4.3.3
 python-dotenv==1.0.0
 requests==2.30.0
 sqlparse==0.4.4
