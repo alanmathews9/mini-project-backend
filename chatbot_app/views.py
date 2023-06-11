@@ -5,6 +5,7 @@ from .models import Chat
 from basic_auth.models import People
 from bardapi import Bard
 import os
+
 def get_history(request):
     if request.method == 'POST':
         email_id = request.data.get('email_id')
@@ -42,8 +43,7 @@ def chatbot(request):
             return JsonResponse({'error': 'Invalid user'}, status=400)
 
 
-        # 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
-        os.environ['_BARD_API_KEY']="WgjfBxFLVQ0wpfDIhlBbwVVHWBbzkY8HPCCvkaDTjQZC4gqBvUuNGM9xiNHc29EIIB10nQ."
+        os.environ['_BARD_API_KEY']="XQgwoEup4BJaPdED6UByNmnV7oYBJ-wKUvUr-z2yrxHbfi81N87NCFuUTGWaW864wLZh2Q."
         bard=Bard(timeout=1000)
         response=bard.get_answer(query)
         # response = requests.post(
